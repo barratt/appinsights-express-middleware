@@ -6,6 +6,7 @@ import { Logger } from './logger';
 export interface AppInsightsExpressOptions {
   key?: string;
   disableAutoCollect?: boolean;
+  collectLive?: boolean;
 }
 
 export const logger = (app: express.Application, options?: AppInsightsExpressOptions) => {
@@ -17,6 +18,10 @@ export const logger = (app: express.Application, options?: AppInsightsExpressOpt
       .setAutoCollectConsole(false)
       .setAutoCollectRequests(false)
       .setAutoCollectExceptions(false);
+  }
+
+  if (options.collectLive) {
+    ai.setSendLiveMetrics(true);
   }
 
   appInsights.start();
